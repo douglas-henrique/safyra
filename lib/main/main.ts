@@ -17,6 +17,10 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+ 
+
+
+
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

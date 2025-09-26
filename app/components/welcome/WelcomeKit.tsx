@@ -67,7 +67,7 @@ export default function WelcomeKit() {
   )
 }
 
-const DarkModeToggle = () => {
+export const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   useEffect(() => {

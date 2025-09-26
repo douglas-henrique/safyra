@@ -1,6 +1,6 @@
-import WelcomeKit from '@/app/components/welcome/WelcomeKit'
 import './styles/app.css'
+import { PasswordManager } from "@/app/components/PasswordManager"
 
 export default function App() {
-  return <WelcomeKit />
+  return <PasswordManager />
 }

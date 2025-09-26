@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer} from 'electron'
 import { conveyor } from '@/lib/conveyor/api'
 
 // Use `contextBridge` APIs to expose APIs to

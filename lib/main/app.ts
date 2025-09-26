@@ -1,17 +1,17 @@
-import { BrowserWindow, shell, app } from 'electron'
+import { BrowserWindow, shell, app, ipcMain } from 'electron'
 import { join } from 'path'
 import appIcon from '@/resources/build/icon.png?asset'
 import { registerResourcesProtocol } from './protocols'
 import { registerWindowHandlers } from '@/lib/conveyor/handlers/window-handler'
 import { registerAppHandlers } from '@/lib/conveyor/handlers/app-handler'
 
-export function createAppWindow(): void {
+export function createAppWindow() {
   // Register custom protocol for resources
   registerResourcesProtocol()
 
   // Create the main window.
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 1290,
     height: 670,
     show: false,
     backgroundColor: '#1c1c1c',
@@ -19,8 +19,7 @@ export function createAppWindow(): void {
     frame: false,
     titleBarStyle: 'hiddenInset',
     title: 'Electron React App',
-    maximizable: false,
-    resizable: false,
+
     webPreferences: {
       preload: join(__dirname, '../preload/preload.js'),
       sandbox: false,
@@ -47,4 +46,16 @@ export function createAppWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  ipcMain.on('titlebar-double-click', () => {
+    if (!mainWindow) return;
+
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  });
+
+  return mainWindow
 }
