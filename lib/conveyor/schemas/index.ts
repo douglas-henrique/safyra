@@ -1,11 +1,15 @@
 import { z } from 'zod'
 import { windowIpcSchema } from './window-schema'
 import { appIpcSchema } from './app-schema'
+import { passwordIpcSchema } from './password-schema'
+import { globalShortcutIpcSchema } from './global-shortcut-schema'
 
 // Define all IPC channel schemas in one place
 export const ipcSchemas = {
   ...windowIpcSchema,
   ...appIpcSchema,
+  ...passwordIpcSchema,
+  ...globalShortcutIpcSchema,
 } as const
 
 // Extract types from Zod schemas

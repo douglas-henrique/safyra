@@ -17,27 +17,42 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
- 
-
-
-
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
+    const allWindows = BrowserWindow.getAllWindows()
+    if (allWindows.length === 0) {
       createAppWindow()
+    } else {
+      // If window exists but is hidden, show it
+      const mainWindow = allWindows[0]
+      if (!mainWindow.isVisible()) {
+        mainWindow.show()
+      }
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+      mainWindow.focus()
     }
   })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// Don't quit when all windows are closed - keep running in background
+// This allows the app to stay in system tray
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  // On macOS, keep the app running in background
+  // On other platforms, also keep running (different from default behavior)
+  // The app will only quit when user explicitly chooses "Exit" from tray menu
+  
+  // Don't clean up global shortcuts here since app is staying alive
+  console.log('All windows closed, but keeping app running in background')
+})
+
+app.on('will-quit', () => {
+  // Clean up global shortcuts before quitting
+  const { globalShortcut } = require('electron')
+  globalShortcut.unregisterAll()
 })
 
 // In this file, you can include the rest of your app's specific main process

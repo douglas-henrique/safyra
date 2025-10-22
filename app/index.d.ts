@@ -29,3 +29,20 @@ declare module '*.web' {
   const content: string
   export default content
 }
+
+// Global window types
+declare global {
+  interface Window {
+    conveyor: {
+      app: any
+      window: any
+      password: any
+      globalShortcut: any
+    }
+    electronAPI: {
+      onGlobalShortcut: (callback: (action: string) => void) => void
+      removeGlobalShortcutListener: () => void
+      resizeQuickSearchWindow: (height: number) => void
+    }
+  }
+}
